@@ -1,0 +1,28 @@
+; *************************************************************
+; *** Scatter-Loading Description File for STM32F407 Application ***
+; *** 此文件用于应用程序项目，配合Bootloader使用 ***
+; *************************************************************
+
+LR_IROM1 0x08020000 0x00060000  {    ; 应用程序区域: 0x08020000-0x0807FFFF (384KB)
+  ER_IROM1 0x08020000 0x00060000  {  ; load address = execution address
+   *.o (RESET, +First)              ; 中断向量表
+   *(InRoot$$Sections)
+   .ANY (+RO)                       ; 只读代码和数据
+   .ANY (+XO)                       ; 执行代码
+  }
+  RW_IRAM1 0x20000000 0x0001C000  {  ; RW data (112KB)
+   .ANY (+RW +ZI)
+  }
+  RW_IRAM2 0x2001C000 0x00004000  {  ; CCM RAM (16KB)
+   .ANY (+RW +ZI)
+  }
+}
+
+; 内存布局说明:
+; Flash总计: 512KB
+; ├── Bootloader: 0x08000000 - 0x0801FFFF (128KB)
+; └── Application: 0x08020000 - 0x0807FFFF (384KB) ← 此配置
+;
+; RAM总计: 128KB
+; ├── SRAM1: 0x20000000 - 0x2001BFFF (112KB)
+; └── CCM RAM: 0x2001C000 - 0x2001FFFF (16KB)
