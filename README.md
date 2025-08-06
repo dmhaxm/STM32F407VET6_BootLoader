@@ -4,6 +4,8 @@
 
 初步实现了上下位机之间一次2K数据分包传输。
 
+使用方式：Bootloader代码直接编译下载使用就行，APP代码的话main函数中开头加上  SCB->VTOR = 0x08020000;
+	__enable_irq();这两句代码，然后如果是使用Keil编译的话，可以使用项目中的Application_Template.sct这个内存分配限制文件
 
 
 
